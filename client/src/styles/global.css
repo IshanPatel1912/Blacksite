@@ -1,0 +1,227 @@
+@import './theme.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle Technical Grid Background */
+body {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 36px 36px;
+  background-position: center top;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-xs);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-olive);
+}
+
+::selection {
+  background: var(--accent-primary);
+  color: #101419;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Tactical Panel */
+.tactical-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  position: relative;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.tactical-panel:hover {
+  border-color: var(--border-strong);
+}
+
+.tactical-panel-interactive {
+  cursor: pointer;
+}
+.tactical-panel-interactive:hover {
+  background-color: var(--bg-elevated);
+  border-color: var(--border-strong);
+}
+
+/* Primary, Olive & Secondary Buttons */
+.tactical-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.tactical-btn-primary {
+  background: var(--accent-primary);
+  color: #101419;
+  border-color: var(--accent-primary);
+}
+.tactical-btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.tactical-btn-olive {
+  background: var(--accent-olive);
+  color: #101419;
+  border-color: var(--accent-olive);
+}
+.tactical-btn-olive:hover:not(:disabled) {
+  background: var(--accent-olive-hover);
+  border-color: var(--accent-olive-hover);
+  box-shadow: 0 0 12px var(--accent-olive-glow);
+}
+
+.tactical-btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--border-dim);
+}
+.tactical-btn-secondary:hover:not(:disabled) {
+  background: var(--bg-subtle);
+  border-color: var(--border-strong);
+  color: #ffffff;
+}
+
+.tactical-btn-danger {
+  background: rgba(227, 93, 93, 0.12);
+  color: var(--color-error);
+  border-color: rgba(227, 93, 93, 0.35);
+}
+.tactical-btn-danger:hover:not(:disabled) {
+  background: rgba(227, 93, 93, 0.25);
+  border-color: var(--color-error);
+}
+
+.tactical-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Rarity Badges (Controlled, Non-neon) */
+.rarity-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+.rarity-Common { color: var(--rarity-common); background: rgba(154, 168, 181, 0.1); }
+.rarity-Uncommon { color: var(--rarity-uncommon); background: rgba(69, 184, 137, 0.1); }
+.rarity-Rare { color: var(--rarity-rare); background: rgba(77, 141, 247, 0.1); }
+.rarity-Epic { color: var(--rarity-epic); background: rgba(157, 104, 217, 0.1); }
+.rarity-Legendary { color: var(--rarity-legendary); background: rgba(217, 154, 61, 0.12); }
+.rarity-Mythic { color: var(--rarity-mythic); background: rgba(214, 80, 80, 0.14); }
+
+/* Inputs and Selects */
+.tactical-input, .tactical-select {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-dim);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: var(--radius-xs);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.tactical-input:focus, .tactical-select:focus {
+  border-color: var(--accent-olive);
+}
+.tactical-select option {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+}
+
+/* Durability Bar */
+.durability-bar {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.durability-fill {
+  height: 100%;
+  transition: width 0.25s ease;
+}
+
+/* Clean Category Badges */
+.tech-tag {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* Spinner */
+.spin {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

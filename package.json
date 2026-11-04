@@ -1,0 +1,20 @@
+{
+  "name": "blacksite-operator-armory",
+  "version": "1.0.0",
+  "description": "BLACKSITE // OPERATOR ARMORY - 3D Game Inventory & Trading Management System (PostgreSQL DBMS Project)",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "npm --prefix server start",
+    "server:dev": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "client:build": "npm --prefix client run build",
+    "db:setup": "npm --prefix server run db:setup",
+    "db:setup:xampp": "npm --prefix server run db:setup:xampp",
+    "test:wheel": "npm --prefix server run test:wheel",
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

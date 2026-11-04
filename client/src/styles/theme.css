@@ -1,0 +1,60 @@
+:root {
+  /* Specification Shared Palette */
+  --bg-primary: #101419;
+  --bg-surface: #171D24;
+  --bg-panel: #1C242C;
+  --bg-elevated: #242E38;
+  --bg-subtle: #2D3945;
+
+  /* Borders & Dividers */
+  --border-dim: #303B45;
+  --border-strong: #445362;
+  --border-active: #D99A3D;
+
+  /* Typography Colors */
+  --text-primary: #E8EDF2;
+  --text-secondary: #9AA8B5;
+  --text-muted: #6B7B8B;
+  --text-accent: #D99A3D;
+
+  /* Primary Military Accent (Muted Olive) */
+  --accent-olive: #A3B36B;
+  --accent-olive-hover: #B4C47C;
+  --accent-olive-subtle: rgba(163, 179, 107, 0.14);
+  --accent-olive-glow: rgba(163, 179, 107, 0.28);
+
+  /* Action Accent (Tactical Amber) */
+  --accent-primary: #D99A3D;
+  --accent-hover: #E8AB4C;
+  --accent-subtle: rgba(217, 154, 61, 0.14);
+  --accent-glow: rgba(217, 154, 61, 0.28);
+
+  /* Status Signals */
+  --status-online: #45B889;
+  --status-warning: #D99A3D;
+  --status-danger: #E35D5D;
+  --color-success: #45B889;
+  --color-error: #E35D5D;
+
+  /* Controlled Item Rarity Colors */
+  --rarity-common: #9AA8B5;
+  --rarity-uncommon: #45B889;
+  --rarity-rare: #4D8DF7;
+  --rarity-epic: #9D68D9;
+  --rarity-legendary: #D99A3D;
+  --rarity-mythic: #D65050;
+
+  /* Clean Typography */
+  --font-display: 'Rajdhani', 'Barlow Condensed', sans-serif;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Radii & Shadows */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+
+  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-panel: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
