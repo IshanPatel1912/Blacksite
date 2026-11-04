@@ -1,232 +1,373 @@
-# BLACKSITE // OPERATOR ARMORY
-### 3D Game Inventory Management System & Academic DBMS Capstone
-**Engine:** PostgreSQL 14+ | **Backend:** Node.js & Express (ES6) | **Frontend:** React, Vite & Three.js (React Three Fiber / Drei)
+<div align="center">
+
+# 🛡️ BLACKSITE // OPERATOR ARMORY
+
+**A full-stack game inventory, marketplace & trading management system — built as a DBMS capstone project**
+
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-4169E1?logo=postgresql&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL%20%2F%20XAMPP-supported-4479A1?logo=mysql&logoColor=white)
+![Status](https://img.shields.io/badge/status-complete-success)
+
+[Overview](#-overview) • [Features](#-features) • [Tech Stack](#-tech-stack) • [Architecture](#-architecture) • [Database](#-database-design) • [Setup](#-getting-started) • [API](#-api-reference) • [Documentation](#-documentation) • [Team](#-team)
+
+</div>
 
 ---
 
-## 1. Project Overview & Architecture
+## 📋 Overview
 
-**BLACKSITE // OPERATOR ARMORY** is an industrial-grade full-stack game inventory, asset lifecycle, P2P marketplace, and multi-asset trading management system built specifically to satisfy and exceed the official **DBMS Project Guidelines** while adhering strictly to the **ER diagram specification** (`FINAL_FINAL.pdf`).
+**BLACKSITE // OPERATOR ARMORY** is a tactical-themed web platform where players manage an armory of virtual gear, buy from a supply depot, trade peer-to-peer, and gamble on a limited-supply reward wheel — all backed by a fully normalized relational database.
 
-```
-                              ┌────────────────────────────────────────┐
-                              │  REACT TACTICAL FRONTEND (Vite / R3F)  │
-                              │  • 3D Operator Avatar (Three.js/Drei)  │
-                              │  • Armory, Store, Marketplace, Trades  │
-                              │  • Academic Database Lab Interface    │
-                              └──────────────────┬─────────────────────┘
-                                                 │ REST API (JSON)
-                                                 ▼
-                              ┌────────────────────────────────────────┐
-                              │       EXPRESS NODE.JS BACKEND          │
-                              │  • Input Validation & Route Handlers   │
-                              │  • Concurrency & Deadlock-Free Locks   │
-                              │  • Transaction Management (ACID)       │
-                              └──────────────────┬─────────────────────┘
-                                                 │ pg Pool Driver
-                                                 ▼
-                              ┌────────────────────────────────────────┐
-                              │       POSTGRESQL RELATIONAL ENGINE     │
-                              │  • 11 Normalized 3NF Tables            │
-                              │  • Stored Procedures & PL/pgSQL Funcs  │
-                              │  • Automated Audit Triggers            │
-                              │  • Views & Materialized Views          │
-                              └────────────────────────────────────────┘
-```
+The project was built to satisfy the official **DBMS Project Guidelines**: a documented ER diagram, a 3NF schema, 100+ seed records, and complete coverage of DDL, DML, DCL, TCL, joins, set operations, subqueries, views, procedures, functions and triggers.
+
+### Highlights
+
+- ✅ **Multi-engine database** — runs on PostgreSQL *or* MySQL/XAMPP, auto-detected at startup
+- ✅ **ACID-safe economy** — purchases, listings and trades run inside transactions with row locking
+- ✅ **14 normalized tables** (3NF) with constraints, indexes, views, procedures, functions and triggers
+- ✅ **Interactive Database Lab** — run the full academic SQL syllabus from inside the app
+- ✅ **Audit trail** — every sensitive action is logged to an immutable ledger
+- ✅ **Live DB status banner** — the UI degrades gracefully when the database is offline
 
 ---
 
-## 2. Directory Structure
+## ✨ Features
 
-```
-DBMS_Project/
-├── client/                     # React Vite Frontend Application
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── 3d/             # TacticalAvatar.jsx, OperatorScene.jsx
-│   │   │   ├── layout/         # TopBar.jsx, Sidebar.jsx, DbStatusBanner.jsx
-│   │   │   └── modals/         # ItemInspectModal, CreateListing, CreateTrade
-│   │   ├── context/            # PlayerContext.jsx, NotificationContext.jsx
-│   │   ├── pages/              # 10 Dedicated Tactical Screens
-│   │   ├── services/           # Centralized API service (api.js)
-│   │   └── styles/             # Tactical theme and global styles
-│   ├── package.json
-│   └── vite.config.js
-│
-├── server/                     # Node.js & Express RESTful API Backend
-│   ├── src/
-│   │   ├── config/             # PostgreSQL connection pool (db.js)
-│   │   ├── controllers/        # Modular business logic controllers
-│   │   ├── middleware/         # Database check & security middleware
-│   │   ├── routes/             # RESTful API routing (api.js)
-│   │   └── scripts/            # Database initialization script (setup-db.js)
-│   ├── package.json
-│   └── .env.example
-│
-├── database/                   # Pure SQL Relational Database Scripts
-│   ├── schema.sql              # DDL Table Definitions & Domain Constraints
-│   ├── indexes.sql             # B-Tree Secondary & Partial Unique Indexes
-│   ├── views.sql               # Views & Materialized Views (mv_market_economy_summary)
-│   ├── functions.sql           # PL/pgSQL Business Calculation Functions
-│   ├── procedures.sql          # ACID Stored Procedures (Pessimistic Row Locking)
-│   ├── triggers.sql            # Automated Trigger Audit Logs & Safeguards
-│   ├── seed.sql                # 128+ Deterministic Realistic Test Records
-│   ├── queries.sql             # Production Operational DQL Queries
-│   └── dbms-lab.sql            # Complete Academic Syllabus Verification Suite
-│
-├── docs/                       # Engineering & Academic Design Documentation
-│   ├── project-analysis.md     # Purpose, User Roles, Use Cases & Specifications
-│   ├── erd-assumptions.md      # ERD Entity/Relationship Mapping from FINAL_FINAL.pdf
-│   └── database-design.md      # 3NF Normalization Proof & Concurrency Strategy
-│
-├── DBMS Project Guidelines.pdf # Official Course Requirements Document
-├── FINAL_FINAL.pdf             # Official Course Chen ER Diagram
-├── .env.example                # Root Environment Configuration Template
-├── package.json                # Root Concurrently Orchestration Script
-└── README.md                   # This Document
+| Module | What it does |
+|---|---|
+| 🎖️ **Armory Inventory** | View owned item instances, equip/unequip gear, repair durability |
+| 📖 **Item Catalog** | Master list of item archetypes with rarity, category and base durability |
+| 🏪 **Supply Depot** | Store offers with price, currency, and limited stock |
+| 💱 **P2P Marketplace** | List items for sale, cancel listings, buy from other players |
+| 🤝 **Bilateral Trades** | Offer items + currency to another player; accept, decline or cancel |
+| 💰 **Wallets** | Multi-currency balances, funding, and transaction history |
+| 🎰 **Luck Royale** | Scarcity-based reward wheel with admin-configurable rewards and events |
+| 👤 **Player Profile** | Operator stats, equipped gear and account status |
+| 📊 **Dashboards** | Player command dashboard and an admin metrics dashboard |
+| 🧾 **Audit Logs** | Immutable record of player and system actions |
+| 🧪 **Database Lab** | Execute categorized DDL / DML / DCL / TCL / DQL demos live |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+|---|---|
+| **Frontend** | React 18, Vite 5, Lucide React, custom tactical CSS theme |
+| **Backend** | Node.js, Express 4, CORS, dotenv |
+| **Database** | PostgreSQL 14+ (`pg`) **or** MySQL / MariaDB via XAMPP (`mysql2`) |
+| **Reporting** | `docx` (auto-generated system report) |
+| **Tooling** | `concurrently` for one-command dev startup |
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+flowchart TD
+    A["⚛️ React + Vite Client<br/>Armory · Store · Marketplace · Trades · Wallets · Luck Royale · DB Lab"]
+    B["🟢 Express REST API<br/>Controllers · Routes · DB-check middleware"]
+    C[("🗄️ PostgreSQL or MySQL<br/>14 tables · Views · Procedures · Triggers")]
+    A -- "HTTP / JSON  (api.js)" --> B
+    B -- "pg Pool / mysql2 Pool" --> C
 ```
 
----
-
-## 3. Database Design & Relational Mapping
-
-The database schema directly maps the 11 entities and associative structures identified in `FINAL_FINAL.pdf`:
-
-1. **`players`**: Registered military operators (`player_id`, `username`, `email`, `status`, `created_at`).
-2. **`currencies`**: Economic denominations (`currency_id`, `currency_name`, `is_premium`, `symbol`).
-3. **`wallets`**: Player financial accounts (`wallet_id`, `player_id`, `currency_id`, `balance`, `updated_at`). Constraint: `UNIQUE(player_id, currency_id)`.
-4. **`item_catalog`**: Central archetype blueprints (`item_type_id`, `item_name`, `rarity`, `is_tradable`, `category`, `base_durability`, `asset_key`).
-5. **`inventories`**: Physical item instances (`item_instance_id`, `player_id`, `item_type_id`, `durability`, `is_equipped`).
-6. **`store_offers`**: Armory depot drops (`offer_id`, `item_type_id`, `currency_id`, `price`, `stock_limit`, `stock_sold`, `status`).
-7. **`market_listings`**: P2P public exchange listings (`listing_id`, `seller_id`, `item_instance_id`, `currency_id`, `price`, `status`). Partial unique index enforces only 1 active listing per instance.
-8. **`trades`**: Bilateral exchange header (`trade_id`, `initiator_id`, `receiver_id`, `status`). Constraint: `initiator_id <> receiver_id`.
-9. **`trade_items`**: Associative table binding item instances to trades (`trade_item_id`, `trade_id`, `item_instance_id`, `player_id`).
-10. **`trade_currencies`**: Associative table binding currency pledges to trades (`trade_currency_id`, `trade_id`, `currency_id`, `player_id`, `amount`).
-11. **`audit_logs`**: Immutable security ledger (`log_id`, `player_id`, `action_type`, `details`, `created_at`).
-
-### 3NF Normalization Proof
-- **1NF**: Atomic scalar attributes; repeating sets (trade items, currency bundles) isolated in associative relations.
-- **2NF**: No partial functional dependencies; all non-prime attributes fully dependent on candidate keys.
-- **3NF**: No transitive dependencies. Catalog archetypes are decoupled from inventory instances ($item\_instance\_id \rightarrow item\_type\_id \rightarrow item\_name$ avoided).
+The server probes the configured database on startup (`DB_DIALECT=auto`), selects the active engine, and exposes its status at `GET /api/health`, which drives the status banner in the UI.
 
 ---
 
-## 4. Prerequisites
+## 🗃️ Database Design
 
-- **Node.js**: v18.0.0 or later (v24.18.0 tested).
-- **PostgreSQL**: v14.0 or later (v15 or v16 recommended).
-- **Web Browser**: Chrome, Edge, Firefox, or Safari with WebGL enabled.
+> 📐 **ER Diagram:** [**FINAL_ER.pdf**](./FINAL_ER.pdf)
+
+### Tables (14)
+
+| # | Table | Purpose |
+|---|---|---|
+| 1 | `players` | Registered operators |
+| 2 | `currencies` | Currency denominations (standard / premium) |
+| 3 | `wallets` | Per-player, per-currency balances — `UNIQUE(player_id, currency_id)` |
+| 4 | `item_catalog` | Item archetypes (rarity, category, durability) |
+| 5 | `inventories` | Owned item instances |
+| 6 | `store_offers` | Supply-depot offers with stock limits |
+| 7 | `market_listings` | P2P listings — one active listing per item instance |
+| 8 | `trades` | Trade header — `initiator_id <> receiver_id` |
+| 9 | `trade_items` | Items attached to a trade |
+| 10 | `trade_currencies` | Currency amounts attached to a trade |
+| 11 | `audit_logs` | Immutable action ledger |
+| 12 | `wheel_events` | Luck Royale event configuration |
+| 13 | `wheel_rewards` | Reward pool and supply limits |
+| 14 | `wheel_spins` | Spin history |
+
+### Database objects
+
+| Object | File |
+|---|---|
+| Schema (DDL) — PostgreSQL | [`database/schema.sql`](./database/schema.sql) |
+| Schema — MySQL / XAMPP | [`database/xampp-mysql-schema.sql`](./database/xampp-mysql-schema.sql) |
+| Indexes | [`database/indexes.sql`](./database/indexes.sql) |
+| Views | [`database/views.sql`](./database/views.sql) |
+| Functions | [`database/functions.sql`](./database/functions.sql) |
+| Stored procedures | [`database/procedures.sql`](./database/procedures.sql) |
+| Triggers | [`database/triggers.sql`](./database/triggers.sql) |
+| Seed data (100+ records) | [`database/seed.sql`](./database/seed.sql) · [`xampp-mysql-seed.sql`](./database/xampp-mysql-seed.sql) |
+| Operational queries | [`database/queries.sql`](./database/queries.sql) |
+| Academic syllabus suite | [`database/dbms-lab.sql`](./database/dbms-lab.sql) |
+| DDL + 20 SQL queries | [`database/DDL_AND_20_SQL_QUERIES.sql`](./database/DDL_AND_20_SQL_QUERIES.sql) |
+
+### Normalization (3NF)
+
+- **1NF** — atomic attributes; repeating groups (trade items, trade currencies) live in associative tables.
+- **2NF** — no partial dependencies on composite keys.
+- **3NF** — no transitive dependencies; item archetypes are separated from item instances.
+
+Full proof: [`docs/database-design.md`](./docs/database-design.md)
 
 ---
 
-## 5. Setup & Installation Instructions
+## 🚀 Getting Started
 
-### Option A: Running with XAMPP (MySQL / MariaDB)
+### Prerequisites
 
-If you have XAMPP installed on your system (e.g. at `C:\xampp`), you can run the entire project directly against XAMPP's database engine with zero additional database downloads:
+- **Node.js** 18 or later
+- **One** database engine: **PostgreSQL 14+** *or* **XAMPP** (MySQL/MariaDB)
+- Git
 
-1. **Start MySQL in XAMPP:**
-   - Open **XAMPP Control Panel** (`C:\xampp\xampp-control.exe`).
-   - Click the **Start** button next to **MySQL** (and optionally **Apache** if you want to use phpMyAdmin).
-   - Ensure the module status turns green with port `3306`.
+### 1. Clone & install
 
-2. **Run the Automated XAMPP Setup Command:**
-   In your project root terminal:
-   ```powershell
+```bash
+git clone https://github.com/IshanPatel1912/Blacksite.git
+cd Blacksite
+npm run install:all
+```
+
+### 2. Configure environment
+
+```bash
+cp server/.env.example server/.env
+```
+
+```env
+PORT=5001
+DB_DIALECT=auto            # auto | postgres | mysql
+
+# PostgreSQL
+PGHOST=localhost
+PGPORT=5432
+PGDATABASE=blacksite_armory
+PGUSER=postgres
+PGPASSWORD=your_password
+
+# MySQL / XAMPP
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_DATABASE=blacksite_armory
+MYSQL_USER=root
+MYSQL_PASSWORD=
+
+CLIENT_URL=http://localhost:5173
+```
+
+### 3. Initialize the database
+
+<details open>
+<summary><b>Option A — XAMPP (MySQL / MariaDB)</b></summary>
+
+1. Open the XAMPP Control Panel and start **MySQL** (port `3306`).
+2. From the project root:
+   ```bash
    npm run db:setup:xampp
    ```
-   This script automatically:
-   - Connects to your XAMPP MySQL daemon (`localhost:3306`, user `root`, no password).
-   - Creates the database `blacksite_armory`.
-   - Executes `database/xampp-mysql-schema.sql` (creating all 11 tables with foreign keys and constraints).
-   - Executes `database/xampp-mysql-seed.sql` (populating 128+ deterministic test records).
+   This creates `blacksite_armory`, applies the schema and loads the seed data.
+3. *(Optional)* Inspect the tables at `http://localhost/phpmyadmin`.
+</details>
 
-3. *(Optional) Inspect in phpMyAdmin:*
-   - Open your browser to `http://localhost/phpmyadmin`.
-   - In the left sidebar, click on `blacksite_armory` to view all 11 tables, views, and data.
+<details>
+<summary><b>Option B — PostgreSQL</b></summary>
 
----
-
-### Option B: Running with PostgreSQL
-
-If your faculty or guidelines strictly evaluate PostgreSQL:
-
-1. **Install & Start PostgreSQL:**
-   - Install PostgreSQL 14+ via the official EDB installer or `winget install PostgreSQL.PostgreSQL`.
-   - Default port is `5432` (which runs alongside XAMPP with zero port conflicts).
-
-2. **Configure Credentials:**
-   - Ensure `server/.env` has your PostgreSQL password:
-     ```env
-     PGHOST=localhost
-     PGPORT=5432
-     PGDATABASE=blacksite_armory
-     PGUSER=postgres
-     PGPASSWORD=your_postgres_password
-     ```
-
-3. **Run PostgreSQL Setup Pipeline:**
-   ```powershell
+1. Make sure PostgreSQL is running on port `5432` and the credentials in `server/.env` are correct.
+2. From the project root:
+   ```bash
    npm run db:setup
    ```
+</details>
 
----
+### 4. Run the app
 
-### Step 4: Start the Full-Stack Application
-Once either XAMPP MySQL or PostgreSQL is initialized, start the frontend and backend concurrently:
-```powershell
+```bash
 npm run dev
 ```
-Open **`http://localhost:5173`** in your browser. The Top Bar will automatically indicate:
-`DB: ONLINE [mysql (XAMPP)]` or `DB: ONLINE [postgres]`.
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:5001/api |
+| Health check | http://localhost:5001/api/health |
+
+The top bar shows the active engine, e.g. `DB: ONLINE [mysql (XAMPP)]` or `DB: ONLINE [postgres]`.
+
+### Useful scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start server + client together |
+| `npm run server` / `npm run server:dev` | Backend only (`:dev` watches for changes) |
+| `npm run client` | Frontend only |
+| `npm run client:build` | Production build of the frontend |
+| `npm run db:setup` | Initialize PostgreSQL |
+| `npm run db:setup:xampp` | Initialize XAMPP MySQL |
+| `npm run test:wheel` | Run the Luck Royale scarcity test |
 
 ---
 
-## 6. Academic Database Lab Demonstration
+## 📁 Project Structure
 
-The **Database Lab** tab in the sidebar provides an interactive evaluation suite covering the entire academic DBMS syllabus across 12 structured categories:
-
-1. **DDL**: Constraint inspections, CREATE, ALTER, DROP, TRUNCATE, and RENAME.
-2. **DML**: INSERT with `RETURNING`, bounded conditional UPDATE, and cascade rules analysis.
-3. **DCL**: Role-based access control, privilege grants, and revocations.
-4. **TCL**: Multi-Version Concurrency Control (MVCC) lock inspection, savepoints, and rollbacks.
-5. **DQL**: Conditional WHERE queries and aggregate metrics (`COUNT`, `AVG`, `MIN`, `MAX`).
-6. **Clauses**: `IN`, `LIKE`, `DISTINCT`, `ORDER BY`, `LIMIT`, and `OFFSET`.
-7. **Grouping**: `GROUP BY` and `HAVING` threshold aggregations.
-8. **Joins**: Complete implementations of `INNER`, `LEFT OUTER`, `RIGHT OUTER`, `FULL OUTER`, `CROSS`, and `SELF JOIN`.
-9. **Set Operations**: `UNION`, `UNION ALL`, `INTERSECT`, and `EXCEPT`.
-10. **Subqueries**: Scalar, correlated, `ANY`, and `ALL` subqueries.
-11. **Views & Materialized Views**: Standard query views and `REFRESH MATERIALIZED VIEW`.
-12. **Procedural SQL**: PL/pgSQL function calls and trigger-generated audit verification.
+```
+Blacksite/
+├── client/                         # React + Vite frontend
+│   ├── public/images/              # Item and operator artwork
+│   └── src/
+│       ├── components/
+│       │   ├── common/             # ItemVisual
+│       │   ├── layout/             # TopBar, Sidebar, DbStatusBanner, NotificationToast
+│       │   ├── modals/             # ItemInspect, CreateListing, CreateTrade
+│       │   └── operator/           # OperatorShowcase
+│       ├── context/                # PlayerContext, NotificationContext
+│       ├── pages/                  # 13 screens (Dashboard, Marketplace, Trades, ...)
+│       ├── services/api.js         # Central API client
+│       └── styles/                 # Global + theme CSS
+│
+├── server/                         # Express REST API
+│   └── src/
+│       ├── config/db.js            # PostgreSQL / MySQL pools + engine detection
+│       ├── controllers/            # Business logic per module
+│       ├── middleware/dbCheck.js   # Blocks requests when DB is offline
+│       ├── routes/                 # api.js, wheelRoutes.js
+│       ├── scripts/                # DB setup, 20-query runner, report generator
+│       └── index.js
+│
+├── database/                       # All SQL: schema, seed, views, procedures, triggers, lab
+├── docs/                           # Design docs + generated system report
+├── FINAL_ER.pdf                    # ER diagram
+├── Final Report.pdf                # Final project report
+└── package.json                    # Root scripts (concurrently)
+```
 
 ---
 
-## 7. Troubleshooting & Diagnostics
+## 📚 API Reference
 
-- **Database Disconnected Banner:** If PostgreSQL is offline or credentials in `server/.env` do not match, the application displays an orange diagnostic banner with step-by-step instructions. The UI gracefully reports the offline status without crashing.
-- **Port Conflicts:** If port 5000 or 5173 is in use, modify `PORT` in `server/.env` or Vite port in `client/vite.config.js`.
-- **CORS Configuration:** The backend CORS middleware is configured to accept requests from all local development origins.
+Base URL: `http://localhost:5001/api`
+
+| Module | Method | Endpoint | Description |
+|---|---|---|---|
+| Health | GET | `/health` | Database connection status |
+| Players | GET | `/players` · `/players/:id` | List / fetch players |
+| | POST | `/players/:id/status` | Update player status |
+| Dashboard | GET | `/dashboard` · `/admin/metrics` | Player & admin metrics |
+| Wallets | GET | `/currencies` · `/wallets` · `/wallets/transactions` | Currencies, balances, history |
+| | POST | `/wallets/fund` | Add funds |
+| Inventory | GET | `/inventory` | Owned items |
+| | POST | `/inventory/equip` · `/inventory/repair` | Equip toggle, repair |
+| Catalog | GET / POST | `/catalog` | List / create item types |
+| Store | GET / POST | `/store` | List / create offers |
+| | PUT | `/store/:id` | Restock an offer |
+| | POST | `/store/purchase` | Buy from the depot |
+| Marketplace | GET | `/marketplace` | Active listings |
+| | POST | `/marketplace/list` · `/cancel` · `/buy` | Create, cancel, buy |
+| Trades | GET / POST | `/trades` | List / create trades |
+| | POST | `/trades/:id/accept` · `/decline` · `/cancel` | Resolve a trade |
+| Audit | GET | `/audit-logs` | Action ledger |
+| DB Lab | GET | `/db-lab/categories` | Lab categories |
+| | POST | `/db-lab/execute` | Run a lab query |
+| Luck Royale | GET | `/wheel/state` | Current wheel state |
+| | POST | `/wheel/spin` | Spin the wheel |
+| | GET / POST | `/wheel/admin/config` · `/admin/reward/:id` · `/admin/event` · `/admin/history` | Admin controls |
 
 ---
 
-## 8. Summary of Completed Academic Requirements
+## 🧪 Database Lab
 
-| Course Guideline | Implementation Status | Evidence / Location |
-|---|---|---|
-| **Project Statement & Use Cases** | Completed | `docs/project-analysis.md` |
-| **ERD Analysis & Cardinalities** | Completed | `docs/erd-assumptions.md`, source `FINAL_FINAL.pdf` |
-| **Relational Model & Constraints** | Completed | `database/schema.sql`, `docs/database-design.md` |
-| **3NF Normalization Proof** | Completed | `docs/database-design.md` Section 2 |
-| **100+ Seed Records** | Completed | `database/seed.sql` (128 records across all 11 tables) |
-| **DDL Queries** | Completed | `database/dbms-lab.sql`, Database Lab Category 1 |
-| **DML Queries (Cascading/Non)** | Completed | `database/dbms-lab.sql`, Database Lab Category 2 |
-| **DCL Queries (Grant/Revoke)** | Completed | `database/dbms-lab.sql`, Database Lab Category 3 |
-| **TCL (Commit, Savepoint, Rollback)** | Completed | `database/dbms-lab.sql`, Database Lab Category 4 |
-| **DQL (Select, Aggregate, Clauses)** | Completed | `database/dbms-lab.sql`, Database Lab Categories 5-7 |
-| **Joins (All 6 Types)** | Completed | `database/dbms-lab.sql`, Database Lab Category 8 |
-| **Set Operations (UNION, INTERSECT, etc.)** | Completed | `database/dbms-lab.sql`, Database Lab Category 9 |
-| **Subqueries (ANY, ALL, Correlated)** | Completed | `database/dbms-lab.sql`, Database Lab Category 10 |
-| **Views & Materialized Views** | Completed | `database/views.sql`, Database Lab Category 11 |
-| **Procedures, Functions & Triggers** | Completed | `database/procedures.sql`, `triggers.sql`, `functions.sql` |
-| **Interactive 3D Operator Avatar** | Completed | `client/src/components/3d/TacticalAvatar.jsx` (Three.js/R3F) |
-| **Tactical Dark UI Design** | Completed | `client/src/styles/` (Blacksite Tactical Armory Aesthetic) |
+The **Database Lab** page runs the course syllabus live against your database:
+
+`DDL` · `DML` · `DCL` · `TCL` · `DQL` · `Clauses` · `GROUP BY / HAVING` · `Joins (all 6)` · `Set Operations` · `Subqueries` · `Views` · `Procedures / Functions / Triggers`
+
+The same queries are available as plain SQL in [`database/dbms-lab.sql`](./database/dbms-lab.sql).
+
+---
+
+## 📄 Documentation
+
+| Document | Description |
+|---|---|
+| 📐 [ER Diagram (PDF)](./FINAL_ER.pdf) | Entity-relationship diagram |
+| 📘 [Final Report (PDF)](./Final%20Report.pdf) | Complete project report |
+| 📝 [Project Analysis](./docs/project-analysis.md) | Purpose, roles, use cases |
+| 🔗 [ERD Assumptions](./docs/erd-assumptions.md) | Entity / relationship mapping |
+| 🧱 [Database Design](./docs/database-design.md) | 3NF proof & concurrency strategy |
+| 🔍 [DDL & 20 Queries Guide](./docs/DDL_AND_20_QUERIES_GUIDE.md) | Walkthrough of the SQL deliverables |
+| 📑 [System Report (DOCX)](./docs/BLACKSITE_ARMORY_SYSTEM_REPORT.docx) | Auto-generated system report |
+
+---
+
+## ✅ Academic Requirements Checklist
+
+| Requirement | Status | Location |
+|---|:---:|---|
+| Project statement & use cases | ✅ | `docs/project-analysis.md` |
+| ER diagram & cardinalities | ✅ | `FINAL_ER.pdf`, `docs/erd-assumptions.md` |
+| Relational model & constraints | ✅ | `database/schema.sql` |
+| 3NF normalization | ✅ | `docs/database-design.md` |
+| 100+ seed records | ✅ | `database/seed.sql` |
+| DDL / DML / DCL / TCL | ✅ | `database/dbms-lab.sql` |
+| DQL, clauses, grouping | ✅ | `database/dbms-lab.sql` |
+| Joins, set operations, subqueries | ✅ | `database/dbms-lab.sql` |
+| Views | ✅ | `database/views.sql` |
+| Procedures, functions, triggers | ✅ | `database/procedures.sql`, `functions.sql`, `triggers.sql` |
+| Final report | ✅ | `Final Report.pdf` |
+
+---
+
+## 🩺 Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| **"Database disconnected" banner** | Start PostgreSQL / XAMPP MySQL and verify the credentials in `server/.env` |
+| **Port already in use** | Change `PORT` in `server/.env` or the Vite port in `client/vite.config.js` |
+| **Wrong engine detected** | Set `DB_DIALECT=postgres` or `DB_DIALECT=mysql` explicitly |
+| **Empty tables** | Re-run `npm run db:setup` (or `db:setup:xampp`) |
+
+---
+
+## 👥 Team
+
+This is a group project built by a team of four.
+
+<div align="center">
+
+| Member | Role | Responsibilities |
+|:---:|:---:|---|
+| **Ishan** | 💻 Frontend & Project Lead | React client, UI/UX, API integration, project integration |
+| **Nishka** | 🗄️ Database | ER design, schema, normalization, SQL scripts, seed data |
+| **Netraa** | 🔌 Server & DB Connectivity | Express server, database connection layer, API ↔ database integration |
+| **Dhanya** | 📚 Documentation | Project report, design documents, ER documentation |
+
+</div>
+
+---
+
+## 📜 License
+
+Developed for academic purposes as part of a DBMS course project.
+
+<div align="center">
+
+**Made with ❤️ by Team Blacksite**
+
+[🔝 Back to top](#️-blacksite--operator-armory)
+
+</div>
