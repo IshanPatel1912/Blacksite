@@ -1,2 +1,21 @@
-# Auto detect text files and perform LF normalization
+# Normalize line endings for text files
 * text=auto
+
+# --- Language stats: dependencies and build output are not project code ---
+**/node_modules/** linguist-vendored
+**/dist/** linguist-generated
+package-lock.json linguist-generated
+docs/** linguist-documentation
+
+# --- Language stats: treat all .sql scripts as plain SQL ---
+*.sql linguist-language=SQL
+
+# --- Binary files ---
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.docx binary
+*.exe binary
